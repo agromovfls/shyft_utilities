@@ -58,5 +58,44 @@ class TestProjectRunner(unittest.TestCase):
             "folder": "../../utility_skels",
             "label": "Creating utility tables"
         })
-        pass
 
+    @mock.patch("requests.post")
+    def test__run_query(self, mk_post):
+
+        class CorrectReturn:
+            text = """
+            {
+                "status": 2,
+                "error": "",
+                "message": ""
+            }
+            """
+
+        class ErrorReturn:
+            text = """
+            {
+                "status": 2,
+                "error": "Something gone wrong",
+                "message": ""
+            }
+            """
+
+        pr = ProjectRunner("shyft")
+
+        mk_post.return_value = CorrectReturn()
+
+        res = pr._run_query("SOME PSEUDO QUERY")
+
+        self.assertEquals(res["value"], 1)
+        self.assertEquals(res["comment"], "")
+        self.assertEquals(res["response"]["status"], 2)
+
+        mk_post.return_value = ErrorReturn()
+
+        res = pr._run_query("SOME PSEUDO QUERY")
+
+        self.assertEquals(res["value"], 0)
+        self.assertEquals(res["comment"], "Something gone wrong")
+        self.assertEquals(res["response"]["status"], 2)
+
+        pass
