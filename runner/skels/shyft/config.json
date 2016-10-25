@@ -1,0 +1,18 @@
+{
+  "server": {
+    "host": "127.0.0.1",
+    "port": "5000"
+  },
+  "steps": [
+    {
+      "label": "Initialization",
+      "folder": "1000_init",
+      "type": "etl"
+    },
+    {
+      "label": "Test initialization",
+      "folder": "1500_test_init",
+      "type": "test"
+    }
+  ]
+}
