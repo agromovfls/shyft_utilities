@@ -5,4 +5,3 @@ pip install thrift
 pip install sasl
 pip install thrift-sasl
 pip install Werkzeug
-pip install ninja2
