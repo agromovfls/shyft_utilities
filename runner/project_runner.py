@@ -12,7 +12,10 @@ from colorama import Fore, Style
 class ProjectRunner(object):
     def __init__(self, project_name, do_echo=True):
         self.path = os.path.join("skels", project_name)
-        self.config = json.load(open(os.path.join(self.path, "config.json")))
+        config_path = os.path.join(self.path, "config.json")
+        if not os.path.exists(config_path):
+            raise Exception("Project \"%s\" does not exist" % project_name)
+        self.config = json.load(open(config_path))
         self.echo = do_echo
         pass
 
@@ -188,9 +191,9 @@ class ProjectRunner(object):
             output["results"].append(item)
             if self.echo:
                 self._render_item(item)
+
             result = result and item["value"]
 
-        sys.stdout.write(Style.RESET_ALL)
         output["value"] = result
         return output
 
