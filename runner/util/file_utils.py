@@ -4,7 +4,7 @@ import os
 def get_files(folder):
     return [
         f for f in os.listdir(folder) if (os.path.isfile(os.path.join(folder, f)) and
-                                          f[-4:] == ".sql")
+                                          (f[-4:] == ".sql" or f[-5:] == ".skel"))
         ]
 
 

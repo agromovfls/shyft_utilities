@@ -104,6 +104,7 @@ class ProjectRunner(object):
         return output
 
     def run_sql_file(self, content):
+        content = re.sub("^--.*$", "", content, flags=re.MULTILINE)
         queries = re.split(";$", content, flags=re.MULTILINE)
         output = []
         for q in queries:
